@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--config.xml이랑 위에 차이점 있음. mapper.dtd/config.dtd-->
+<!--쿼리문을 작성하는 파일임.-->
+
+<mapper namespace="Board">
+    
+    <insert id="save" parameterType="board">
+<!--        parameterType는 -->
+        insert into board_table(
+            boardTitle,
+            boardContents,
+            boardWriter,
+            boardPass
+        ) values (
+            #{boardTitle},
+            #{boardContents},
+            #{boardWriter},
+            #{boardPass}
+        );
+    </insert>
+    
+    <select id="findAll" resultType="board">
+        select id, boardTitle, boardWriter, boardHits, date_format(createdAt, "%Y-%m-%d") as createdAt
+        from board_table order by id desc;
+    </select>
+    
+</mapper>

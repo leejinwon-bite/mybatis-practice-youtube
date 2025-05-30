@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table, tr, td, th {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>글 목록</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>조회수</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Thymeleaf를 사용하여 게시글 목록을 반복 출력 밑에 th랑 tr이랑 같이 나오는데, th는 타임리프를
+             말하는 거임. 태그가 아님.-->
+            <tr th:each="board : ${boardList}">
+                <td th:text="${board.id}"></td>
+                <td><a th:href="@{/view/{no}(no=${board.id})}" th:text="${board.boardTitle}"></a></td>
+                <td th:text="${board.boardWriter}"></td>
+                <td th:text="${board.createdAt}"></td>
+                <td th:text="${board.boardHits}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 글 작성 페이지로 이동하는 링크 -->
+    <a href="/save">글 작성하기</a>
+</body>
+</html>
