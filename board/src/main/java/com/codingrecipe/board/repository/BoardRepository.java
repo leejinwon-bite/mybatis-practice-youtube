@@ -28,4 +28,24 @@ public class BoardRepository {
         // selectList 메서드는 여러 개의 결과를 반환하는 쿼리를 실행할 때 사용됩니다.
         // "Board.findAll"은 mybatis의 board-mapper.xml 파일에서 모든 게시글을 조회하는 SQL ID를 나타냅니다.
     }
+
+    public void updateHits(Long id) {
+        sql.update("Board.updateHits", id); // mybatis의 xml 파일에 있는 쿼리문을 실행합니다.
+        // update 메서드는 데이터베이스의 데이터를 수정하는 쿼리를 실행할 때 사용됩니다.
+        // "Board.updateHits"는 mybatis의 board-mapper.xml 파일에서 게시글 조회수를 업데이트하는 SQL ID를 나타냅니다.
+    }
+
+    public BoardDTO findById(Long id) {
+        return sql.selectOne("Board.findById", id); // mybatis의 xml 파일에 있는 쿼리문을 실행합니다.
+        // selectOne 메서드는 단일 결과를 반환하는 쿼리를 실행할 때 사용됩니다.
+        // "Board.findById"는 mybatis의 board-mapper.xml 파일에서 특정 게시글을 조회하는 SQL ID를 나타냅니다.
+    }
+
+    public void update(BoardDTO boardDTO) {
+        sql.update("Board.update", boardDTO); // mybatis의 xml 파일에 있는 쿼리문을 실행합니다.
+    }
+
+    public void delete(Long id) {
+        sql.delete("Board.delete", id); // mybatis의 xml 파일에 있는 쿼리문을 실행합니다.
+    }
 }

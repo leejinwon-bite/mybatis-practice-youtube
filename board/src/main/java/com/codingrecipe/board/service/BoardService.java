@@ -21,4 +21,22 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
+    public void updateHits(Long id) {
+        boardRepository.updateHits(id);
+    }
+
+    public BoardDTO findById(Long id) {
+        return boardRepository.findById(id);
+    }
+
+    public void update(BoardDTO boardDTO) {
+        boardRepository.update(boardDTO);
+    }
+
+    public void delete(Long id) {
+        boardRepository.delete(id);
+        // 삭제 메서드를 추가하여 게시글을 삭제합니다.
+        // 이 메서드는 BoardRepository에서 delete 메서드를 호출하여 게시글을 삭제합니다.
+        // BoardRepository에 delete 메서드가 정의되어 있어야 합니다.
+    }
 }
