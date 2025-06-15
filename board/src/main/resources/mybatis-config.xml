@@ -5,6 +5,7 @@
 <configuration>
     <typeAliases>
         <typeAlias type="com.codingrecipe.board.dto.BoardDTO" alias="board"></typeAlias>
+        <typeAlias type="com.codingrecipe.board.dto.BoardFileDTO" alias="boardFile"></typeAlias>
 <!--    type="com.codingrecipe.board.dto.BoardDTO" alias="board"에 대해서 해석: type 속성값을 alias
     속성값으로 객체화 시켰음. board가 com.....~를 의미함. 그리고 이 board는 board-mapper.xml에 있는
     parameterType="board"과 매핑됨. 이 의미는 설정코드랑 쿼리작성 파일이랑 연결 시킨거임. 이렇게 하는 이유는

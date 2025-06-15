@@ -5,19 +5,28 @@
 <!--쿼리문을 작성하는 파일임.-->
 
 <mapper namespace="Board">
-    
-    <insert id="save" parameterType="board">
-<!--        parameterType는 -->
+
+<!--    useGenerated, keyProperty:
+useGeneratedKeys="true": DB에서 자동 생성되는 기본키(예: AUTO_INCREMENT)를 MyBatis가 가져오도록 합니다.
+keyProperty="id": 생성된 키 값을 매핑할 객체의 프로퍼티 이름입니다. 예를 들어,
+insert 후에 id 필드에 자동으로 값이 할당됩니다.
+즉, insert 후에 새로 생성된 PK 값을 DTO의 id 필드에 자동으로 넣어줍니다.
+이 말은 원래는 save할때 id를 sql문에 안넣어도 자동생성 되니깐, 제외하고 다른애들에 대해서 insert sql문을 시용.
+그래서 DTO쪽에 원래 id 필드에 할당이 값이 되지 않았다는 것을 의미함. 따로 contoller쪽에 메서드가 작동하면서
+id 필드가 초기화 되기만 했던것을 이젠 mybatis가 작동했을때도 id 필드값을 초기화 시키는 용도로 사용됨.-->
+    <insert id="save" parameterType="board" useGeneratedKeys="true" keyProperty="id">
         insert into board_table(
             boardTitle,
             boardContents,
             boardWriter,
-            boardPass
+            boardPass,
+            fileAttached
         ) values (
             #{boardTitle},
             #{boardContents},
             #{boardWriter},
-            #{boardPass}
+            #{boardPass},
+            #{fileAttached}
         );
     </insert>
     
@@ -34,7 +43,7 @@
 
     <select id="findById" parameterType="Long" resultType="board">
         select id, boardTitle, boardContents, boardWriter, boardHits, boardPass,
-        date_format(createdAt, "%Y-%m-%d %H:%i:%s") as createdAt
+        date_format(createdAt, "%Y-%m-%d %H:%i:%s") as createdAt, fileAttached
         from board_table where id = #{id};
     </select>
 
@@ -46,5 +55,21 @@
     <delete id="delete" parameterType="Long">
         delete from board_table where id = #{id};
     </delete>
+
+    <insert id="saveFile" parameterType="boardFile">
+        insert into board_file_table(
+            originalFileName,
+            storedFileName,
+            boardId
+        ) values (
+            #{originalFileName},
+            #{storedFileName},
+            #{boardId}
+        );
+    </insert>
+
+    <select id="findFile" parameterType="Long" resultType="boardFile">
+        select * from board_file_table where boardId = #{id};
+    </select>
     
 </mapper>

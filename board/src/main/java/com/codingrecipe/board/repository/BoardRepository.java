@@ -1,6 +1,7 @@
 package com.codingrecipe.board.repository;
 
 import com.codingrecipe.board.dto.BoardDTO;
+import com.codingrecipe.board.dto.BoardFileDTO;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -15,12 +16,13 @@ public class BoardRepository {
 
     private final SqlSession sql; // mybatis의존성을 주입합니다.
 
-    public void save(BoardDTO boardDTO) {
+    public BoardDTO save(BoardDTO boardDTO) {
         sql.insert("Board.save", boardDTO); // mybatis의 xml 파일에 있는 쿼리문을 실행합니다.
 //        DTO는 data transfer object의 약자로, 데이터 전송 객체를 의미합니다. 그래서 매개로 들어간듯함.
 //        문자열 "Board.save"는 mybatis의 board-mapper.xml 파일에서 쿼리문을 찾기 위한 키입니다.
         // "Board"는 네임스페이스(namespace)로, "save"는 해당 네임스페이스 내의 SQL ID를 나타냅니다.
         // 이 구조는 mybatis에서 SQL 쿼리를 관리하는 일반적인 방식입니다.
+        return boardDTO;
     }
 
     public List<BoardDTO> findAll() {
@@ -47,5 +49,15 @@ public class BoardRepository {
 
     public void delete(Long id) {
         sql.delete("Board.delete", id); // mybatis의 xml 파일에 있는 쿼리문을 실행합니다.
+    }
+
+    public void saveFile(BoardFileDTO boardFileDTO) {
+        sql.insert("Board.saveFile", boardFileDTO); // mybatis의 xml 파일에 있는 쿼리문을 실행합니다.
+    }
+
+    public List<BoardFileDTO> findFile(Long id) {
+        return sql.selectList("Board.findFile", id); // mybatis의 xml 파일에 있는 쿼리문을 실행합니다.
+        // selectOne 메서드는 단일 결과를 반환하는 쿼리를 실행할 때 사용됩니다.
+        // "Board.findFile"은 mybatis의 board-mapper.xml 파일에서 특정 게시글의 첨부파일 정보를 조회하는 SQL ID를 나타냅니다.
     }
 }

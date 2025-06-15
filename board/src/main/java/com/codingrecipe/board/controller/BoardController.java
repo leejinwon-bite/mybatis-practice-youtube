@@ -1,6 +1,7 @@
 package com.codingrecipe.board.controller;
 
 import com.codingrecipe.board.dto.BoardDTO;
+import com.codingrecipe.board.dto.BoardFileDTO;
 import com.codingrecipe.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -8,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -23,7 +26,7 @@ public class BoardController {
     }
 
     @PostMapping("/save")
-    public String save(BoardDTO boardDTO) {
+    public String save(BoardDTO boardDTO) throws IOException {
         System.out.println("BoardDTO = " + boardDTO);
         boardService.save(boardDTO);
         return "redirect:/list"; // 저장 후 목록 페이지로 리다이렉트
@@ -46,6 +49,10 @@ public class BoardController {
         BoardDTO boardDTO = boardService.findById(id);
         model.addAttribute("board", boardDTO);
         System.out.println("boardDTO = " + boardDTO);
+        if (boardDTO.getFileAttached() == 1) {
+            List<BoardFileDTO> boardFileDTOList = boardService.findFile(id);
+            model.addAttribute("boardFileList", boardFileDTOList);
+        }
         return "detail";
     }
 
@@ -69,6 +76,12 @@ public class BoardController {
     public String delete(@PathVariable("id") Long id) {
         boardService.delete(id); // 조회수 업데이트
         return "redirect:/list"; // 삭제 후 목록 페이지로 리다이렉트
+    }
+
+    @GetMapping("/favicon.ico")
+    @ResponseBody
+    public void returnNoFavicon() {
+        // 아무 동작도 하지 않음
     }
 
 }
