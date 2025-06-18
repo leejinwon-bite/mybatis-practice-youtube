@@ -26,9 +26,12 @@ public class BoardController {
     }
 
     @PostMapping("/save")
+//    IOException을 throws로 던졌는데, 이건그냥 귀찮아서 대충 던진거고, 예외 발생시 View page쪽에서
+//    다른 경고창이나 뭐 다른거 띄우도록 하기위해 던지지 않고, try-catch로 처리하는게 더 완성도 있음. 다른 창으로
+//    return해서 javascript alert로 경고창 띄우는 것도 가능함.
     public String save(BoardDTO boardDTO) throws IOException {
         System.out.println("BoardDTO = " + boardDTO);
-        boardService.save(boardDTO);
+        boardService.save(boardDTO); // 첨부파일도 같이 save
         return "redirect:/list"; // 저장 후 목록 페이지로 리다이렉트
     }
 
@@ -41,14 +44,16 @@ public class BoardController {
     }
 
     @GetMapping("/{id}")
+//    hidden 타입으로 넘어오는 id를 @PathVariable로 받음
     public String findById(Model model, @PathVariable("id") Long id) {
 //        조회수 처리
         boardService.updateHits(id);
 
-//        상세내용 가져옴
+//       첨부파일이 아닌 상세내용 가져옴
         BoardDTO boardDTO = boardService.findById(id);
         model.addAttribute("board", boardDTO);
         System.out.println("boardDTO = " + boardDTO);
+//        첨부파일 관련 상세내용 가져옴
         if (boardDTO.getFileAttached() == 1) {
             List<BoardFileDTO> boardFileDTOList = boardService.findFile(id);
             model.addAttribute("boardFileList", boardFileDTOList);
@@ -67,6 +72,7 @@ public class BoardController {
     public String update(BoardDTO boardDTO, Model model) {
         System.out.println("boardDTO = " + boardDTO);
         boardService.update(boardDTO);
+//        @GetMapping("/{id}")에 있는 조회수 업데이트와 동일한 로직을 사용
         BoardDTO dto = boardService.findById(boardDTO.getId());
         model.addAttribute("board", dto);
         return "detail";
@@ -74,8 +80,8 @@ public class BoardController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id) {
-        boardService.delete(id); // 조회수 업데이트
-        return "redirect:/list"; // 삭제 후 목록 페이지로 리다이렉트
+        boardService.delete(id);
+        return "redirect:/list";
     }
 
     @GetMapping("/favicon.ico")

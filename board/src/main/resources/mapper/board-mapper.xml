@@ -35,6 +35,7 @@ id 필드가 초기화 되기만 했던것을 이젠 mybatis가 작동했을때�
         from board_table order by id desc;
     </select>
 
+<!--    조회수 늘리는거 관련 SQL-->
     <update id="updateHits" parameterType="Long">
         update board_table
         set boardHits = boardHits + 1

@@ -7,6 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+// BoardDTO의 필드중  private int fileAttached;의 값이 1일때 이 DTO의 필드들이 초기화되도록 설계를 해놓음.
+// 첨부파일 관련한 내용들만 담은 DTO라고 보면됨. 동시에 BoardDTO와 연관관계 Mapping이 되어있음. 그 FK가 boardId임.
 public class BoardFileDTO {
 
     private Long id; // 파일 ID

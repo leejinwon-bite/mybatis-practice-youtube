@@ -7,9 +7,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private String resourcePath = "/upload/**"; // view 에서 사용할 경로
+    private String resourcePath = "/upload/**"; // project 에서 사용할 상대 경로
 
-    private String savePath = "file:///C:/Users/huge4/upload"; // 파일 저장용 경로
+    private String savePath = "file:///C:/Users/huge4/upload"; // 파일 저장용 절대 경로
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
